@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.templates.commands.ArmKickerToSetPoint;
 import edu.wpi.first.wpilibj.templates.commands.CompressorOff;
 import edu.wpi.first.wpilibj.templates.commands.CompressorOn;
 import edu.wpi.first.wpilibj.templates.commands.Kick;
+import edu.wpi.first.wpilibj.templates.commands.SetFixedSetPoint;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -45,7 +46,7 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-    public static final int JOYSTICK_PORT = 1;
+    public static final int JOYSTICK_PORT1 = 1;
     public static final int JOYSTICK_PORT2 = 2;
     public static final int JOYSTICK_PORT3 = 3;
     private Joystick leftstick;
@@ -56,23 +57,33 @@ public class OI {
     private JoystickButton leftStickButton8;
     private JoystickButton xBoxA;
     private JoystickButton xBoxB;
+    private JoystickButton xBoxRightBumper;
+    private JoystickButton xBoxLeftBumper;
 
 
     public OI() {
-        leftstick = new Joystick(JOYSTICK_PORT);
-        rightstick = new Joystick(JOYSTICK_PORT2);
-        xBox = new Joystick(JOYSTICK_PORT3);
+        xBox = new Joystick(JOYSTICK_PORT1);
+        leftstick = new Joystick(JOYSTICK_PORT2);
+        rightstick = new Joystick(JOYSTICK_PORT3);
 
-        trigger = new JoystickButton(leftstick, Joystick.ButtonType.kTop.value);
+/*        trigger = new JoystickButton(leftstick, Joystick.ButtonType.kTop.value);
         trigger.whenPressed(new ArmAndKick(150));
 
         leftStickButton8 = new JoystickButton(leftstick, 8);
         leftStickButton8.whenPressed(new CompressorOn());
         leftStickButton8.whenReleased(new CompressorOff());
+*/
+        xBoxA = new JoystickButton(xBox, RobotMap.xBoxAIndex);
+        xBoxB = new JoystickButton(xBox, RobotMap.xBoxBIndex);
+        xBoxRightBumper = new JoystickButton(xBox, RobotMap.xBoxRightBumperIndex);
+        xBoxLeftBumper = new JoystickButton(xBox, RobotMap.xBoxLeftBumperIndex);
 
-        xBoxA = new JoystickButton(xBox, 1);
+        xBoxRightBumper.whenPressed(new CompressorOn());
+        xBoxRightBumper.whenReleased(new CompressorOff());
+        
+        xBoxRightBumper.whenPressed(new SetFixedSetPoint());
+
         xBoxA.whenPressed(new Kick());
-        xBoxB = new JoystickButton(xBox, 2);
         xBoxB.whenPressed(new ArmKickerToSetPoint());
     }
 

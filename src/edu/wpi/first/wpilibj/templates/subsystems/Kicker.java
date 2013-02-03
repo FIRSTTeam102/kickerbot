@@ -18,16 +18,14 @@ import edu.wpi.first.wpilibj.templates.commands.SetSetPointWithTrigger;
  *
  * @author Administrator
  */
-public class Kicker extends Subsystem {
-
-	// CONSTANTS
+public class Kicker extends Subsystem
+{
+    // CONSTANTS
     final int ENCODER_MAX_VALUE = 700;
     final double MOTOR_SCALE_FACTOR = 0.7;
     final double SET_POINT_SCALE_VALUE = 20.0;
-	public static final double TIME_TO_RELEASE_CLUTCH = 0.4;
-	
-	
-	// SENSORS AND ACTUATORS
+    public static final double TIME_TO_RELEASE_CLUTCH = 0.4;
+    // SENSORS AND ACTUATORS
     Encoder encoderWinch; // = new Encoder(RobotMap.encoderPortA, RobotMap.encoderPortB);
     Victor winchMotor;
     Solenoid solenoid1;
@@ -35,9 +33,8 @@ public class Kicker extends Subsystem {
     Solenoid clutchSolenoidRelease;
     Solenoid clutchSolenoidHold;
     DigitalInput winchLimitSwitch;
-	
-	// OTHER MEMBERS
-	int winchEncoderSetPoint = 0;
+    // OTHER MEMBERS
+    int winchEncoderSetPoint = 200;
 
     public Kicker()
     {
@@ -46,18 +43,22 @@ public class Kicker extends Subsystem {
         solenoid1 = new Solenoid(RobotMap.solenoidModule, 1);
         solenoid2 = new Solenoid(RobotMap.solenoidModule, 2);
         clutchSolenoidRelease = new Solenoid(RobotMap.solenoidModule, RobotMap.clutchSolenoidReleasePort);
-        clutchSolenoidHold = new Solenoid(RobotMap.solenoidModule,RobotMap.clutchSolenoidHoldPort);
+        clutchSolenoidHold = new Solenoid(RobotMap.solenoidModule, RobotMap.clutchSolenoidHoldPort);
         encoderWinch = new Encoder(RobotMap.encoderPortA, RobotMap.encoderPortB);
     }
-    public void initDefaultCommand() {
+
+    public void initDefaultCommand()
+    {
         // Set the default command for a subsystem here.
         setDefaultCommand(new SetSetPointWithTrigger());    // Always look to set the setPoint using the xBox trigger.
     }
+
     public void engageSprings()
     {
         solenoid1.set(false);
         solenoid2.set(true);
     }
+
     public void disengageSprings()
     {
         solenoid1.set(true);
@@ -69,6 +70,7 @@ public class Kicker extends Subsystem {
         clutchSolenoidRelease.set(false);
         clutchSolenoidHold.set(true);
     }
+
     public void disengageClutch()
     {
         System.out.println("disengageClutch");
@@ -76,32 +78,38 @@ public class Kicker extends Subsystem {
         clutchSolenoidHold.set(false);
         zeroEncoder();                      // Auto zero the encoder after releasing to prevent overwinding.
     }
+
     public void zeroEncoder()
     {
         encoderWinch.reset();
         encoderWinch.start();
     }
+
     public void turnOnWinchMotor()
     {
         System.out.println("Turning on winch Motor");
         engageClutch();
         winchMotor.set(0.40);
     }
+
     public void turnOffWinchMotor()
     {
         System.out.println("Turning off winch Motor");
         winchMotor.set(0.0);
     }
+
     public boolean winchLimitReached()
     {
 //        System.out.println("winchLimitSwitch: " + winchLimitSwitch.get());
         return !winchLimitSwitch.get();
     }
+
     public boolean encoderLimitReached(int limit)
     {
 //        System.out.println("encoderWinch/limit: " + encoderWinch.get() + "/" + limit);
         return (encoderWinch.get() >= limit);
     }
+
     public boolean winchSetPointReached()
     {
         return encoderLimitReached(winchEncoderSetPoint);
@@ -113,27 +121,38 @@ public class Kicker extends Subsystem {
         SmartDashboard.putInt("Winch Set Point:", winchEncoderSetPoint);
     }
 
-	
-	// NOTE: These two functions both use the xBox Trigger.  ONLY ONE OF THEM SHOULD BE USED 
-	// AND IT SHOULD BE THE DEFAULT COMMAND FOR THIS SUBSYSTEM.
-	
+    // NOTE: These two functions both use the xBox Trigger.  ONLY ONE OF THEM SHOULD BE USED 
+    // AND IT SHOULD BE THE DEFAULT COMMAND FOR THIS SUBSYSTEM.
     // Arm the kicker using the right trigger of the xBox controller.
-    public void armWithTrigger(Joystick xBox) {
+    public void armWithTrigger(Joystick xBox)
+    {
         double triggerValue = xBox.getAxis(Joystick.AxisType.kZ);
-        if((triggerValue < 0)  // 0 -> -1 is the right trigger on the xBox
-           && !encoderLimitReached(ENCODER_MAX_VALUE)
-           && !winchLimitReached())
+        if ((triggerValue < 0) // 0 -> -1 is the right trigger on the xBox
+                && !encoderLimitReached(ENCODER_MAX_VALUE)
+                && !winchLimitReached())
+        {
             winchMotor.set(-triggerValue * MOTOR_SCALE_FACTOR);
-        else
+        } else
+        {
             winchMotor.set(0.0);
+        }
     }
     // Change the set point of the encoder using the xBox Right and Left triggers.
-    public void setSetPointWithTrigger(Joystick xBox) {
-        double triggerValue = -xBox.getAxis(Joystick.AxisType.kZ);
+
+    public void setSetPointWithTrigger(Joystick xBox)
+    {
+        double triggerValue = -xBox.getRawAxis(RobotMap.xBoxTriggerAxis);
         winchEncoderSetPoint += triggerValue * SET_POINT_SCALE_VALUE;
-		if(winchEncoderSetPoint > ENCODER_MAX_VALUE)
-			winchEncoderSetPoint = ENCODER_MAX_VALUE;
-		else if(winchEncoderSetPoint < 0)
-			winchEncoderSetPoint = 0;
+        if (winchEncoderSetPoint > ENCODER_MAX_VALUE)
+        {
+            winchEncoderSetPoint = ENCODER_MAX_VALUE;
+        } else if (winchEncoderSetPoint < 0)
+        {
+            winchEncoderSetPoint = 0;
+        }
+    }
+    public void setFixedSetPoint(int setPoint)
+    {
+        winchEncoderSetPoint = setPoint;
     }
 }
