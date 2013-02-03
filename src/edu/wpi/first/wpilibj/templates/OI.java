@@ -1,6 +1,7 @@
 
 package edu.wpi.first.wpilibj.templates;
 
+import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.templates.commands.ArmAndKick;
@@ -59,6 +60,8 @@ public class OI {
 
 
     public OI() {
+        try
+        {
         leftstick = new Joystick(JOYSTICK_PORT);
         rightstick = new Joystick(JOYSTICK_PORT2);
         xBox = new Joystick(JOYSTICK_PORT3);
@@ -74,6 +77,12 @@ public class OI {
         xBoxA.whenPressed(new Kick());
         xBoxB = new JoystickButton(xBox, 2);
         xBoxB.whenPressed(new ArmKickerToSetPoint());
+        }
+        catch(Exception ex1)
+        {
+            MessageLogger.LogError("Unhandled exception in OI constructor.");
+            MessageLogger.LogError(ex1.toString());
+        }
     }
 
     public Joystick getLeftJoystick() {
