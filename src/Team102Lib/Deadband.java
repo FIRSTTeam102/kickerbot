@@ -31,11 +31,15 @@ public class Deadband {
     public Deadband(double rr, double dr, double ef, double rp) {
         this.rangeRadius = rr;
         this.deadRadius = dr;
+        if(ef > 5.0)
+            ef = 5.0;
         this.expFactor = ef;
         this.rescalePercent = rp;
     }
 
     public void SetExpFactor(double ef) {
+        if(ef > 5.0)
+            ef = 5.0;
         this.expFactor = ef;
     }
 
@@ -57,9 +61,11 @@ public class Deadband {
             // NOTE: this will amplify, not deaden if abs(theValue) > 1
             double retVal = 0.0;
             if (theValue > 0.0) {
-                retVal = MathLib.pow(theValue, expFactor);
+                retVal = MathLib.interpolatedPow(theValue, expFactor);
+//                retVal = MathLib.pow(theValue, expFactor);
             } else {
-                retVal = -MathLib.pow(Math.abs(theValue), expFactor);
+                retVal = -MathLib.interpolatedPow(Math.abs(theValue), expFactor);
+//                retVal = -MathLib.pow(Math.abs(theValue), expFactor);
             }
 
             return retVal * rescalePercent;
