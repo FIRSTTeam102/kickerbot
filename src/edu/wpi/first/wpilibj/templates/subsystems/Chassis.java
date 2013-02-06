@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.commands.Drive;
 import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
 
 /**
@@ -32,6 +33,7 @@ public class Chassis extends Subsystem {
     double lefty;
     double x;
     double y;
+    public boolean twoDriverMode = false;
 
 /*    double change;
     double temperature;
@@ -40,7 +42,7 @@ public class Chassis extends Subsystem {
  */
 
     public void initDefaultCommand() {
-        setDriveWithXBox();
+        setDefaultCommand(new Drive());
     }
 
     public Chassis() {
@@ -147,7 +149,7 @@ public class Chassis extends Subsystem {
         righty = RobotMap.stickDeadBand.Deaden(preRighty);
         lefty = RobotMap.stickDeadBand.Deaden(preLefty);
 
-        MessageLogger.LogMessage(preRighty + "\t" + preLefty + "\t" + righty + "\t" + lefty);
+        MessageLogger.LogMessage("Joystick\t" + preRighty + "\t" + preLefty + "\t" + righty + "\t" + lefty);
         drive.tankDrive(lefty, righty);
     }
      public void driveWithXbox(Joystick xbox) {
@@ -158,9 +160,29 @@ public class Chassis extends Subsystem {
         righty = RobotMap.stickDeadBand.Deaden(preRighty);
         lefty = RobotMap.stickDeadBand.Deaden(preLefty);
 
-        MessageLogger.LogMessage(preRighty + "\t" + preLefty + "\t" + righty + "\t" + lefty);
+        MessageLogger.LogMessage("XBox\t" + preRighty + "\t" + preLefty + "\t" + righty + "\t" + lefty);
         drive.tankDrive(lefty, righty);
     }
+     public void drive(Joystick xbox, Joystick leftstick, Joystick rightstick) {
+         double preRighty;
+         double preLefty;
+         if(twoDriverMode)
+         {
+            preRighty = rightstick.getY();
+            preLefty = leftstick.getY();
+         }
+         else
+         {
+            preRighty = xbox.getRawAxis(RobotMap.xBoxRightYAxis);
+            preLefty = xbox.getRawAxis(RobotMap.xBoxRightYAxis);             
+         }
+        righty = RobotMap.stickDeadBand.Deaden(preRighty);
+        lefty = RobotMap.stickDeadBand.Deaden(preLefty);
+
+        MessageLogger.LogMessage(preRighty + "\t" + preLefty + "\t" + righty + "\t" + lefty);
+        drive.tankDrive(lefty, righty);
+     }
+     
      public void updateStatus()
     {
 /*        SmartDashboard.putNumber("X: ", x);

@@ -28,7 +28,7 @@ public class RangeSensor extends Subsystem {
     
     public void getRange() {
         input = (m_inputChannel.getValue()); 
-        MessageLogger.LogMessage("value: " + input);
+//        MessageLogger.LogMessage("value: " + input);
     }
  }
 

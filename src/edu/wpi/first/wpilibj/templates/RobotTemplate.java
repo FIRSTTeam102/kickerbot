@@ -93,10 +93,10 @@ public class RobotTemplate extends IterativeRobot {
             // Check Digital Input 1 on the driver station to see if we should be in 2 driver mode.
             // true means two driver mode (drive with joysticks)
             if(ds.getDigitalIn(1)) {
-                CommandBase.chassis.setDriveWithJoysticks();
+                CommandBase.chassis.twoDriverMode = true;
             }
             else {
-                CommandBase.chassis.setDriveWithXBox();
+                CommandBase.chassis.twoDriverMode = false;
             }
             
             updateStatus();
