@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import Team102Lib.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
 import edu.wpi.first.wpilibj.templates.commands.EngageSprings;
 
 /**
@@ -88,6 +89,16 @@ public class RobotTemplate extends IterativeRobot {
             RobotMap.twistDeadBand = new Deadband(RobotMap.joystickRange, RobotMap.flatDeadband, twistDeadening, speedScale);
 
             Scheduler.getInstance().add(new EngageSprings(true));
+            
+            // Check Digital Input 1 on the driver station to see if we should be in 2 driver mode.
+            // true means two driver mode (drive with joysticks)
+            if(ds.getDigitalIn(1)) {
+                CommandBase.chassis.setDriveWithJoysticks();
+            }
+            else {
+                CommandBase.chassis.setDriveWithXBox();
+            }
+            
             updateStatus();
         }
         catch(Exception ex1)

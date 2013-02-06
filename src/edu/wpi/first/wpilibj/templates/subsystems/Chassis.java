@@ -40,7 +40,7 @@ public class Chassis extends Subsystem {
  */
 
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveWithXBox());
+        setDriveWithXBox();
     }
 
     public Chassis() {
@@ -169,4 +169,14 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Gyro Rem: ", (gyro.getAngle() % 360));
         SmartDashboard.putNumber("Range: ", rangeFinder.getRangeInches());
 */     }
+     
+     // Two commands to choose which joytsticks will be used to drive.
+     public void setDriveWithXBox()
+     {
+        setDefaultCommand(new DriveWithXBox());         
+     }
+     public void setDriveWithJoysticks()
+     {
+        setDefaultCommand(new DriveWithJoysticks());         
+     }
 }
