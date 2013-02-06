@@ -117,9 +117,9 @@ public class Kicker extends Subsystem
 
     public void updateStatus()
     {
-        SmartDashboard.putInt("Winch Encoder:", encoderWinch.get());
-        SmartDashboard.putInt("Winch Set Point:", winchEncoderSetPoint);
-    }
+/*        SmartDashboard.putNumber("Winch Encoder:", encoderWinch.get());
+        SmartDashboard.putNumber("Winch Set Point:", winchEncoderSetPoint);
+*/    }
 
     // NOTE: These two functions both use the xBox Trigger.  ONLY ONE OF THEM SHOULD BE USED 
     // AND IT SHOULD BE THE DEFAULT COMMAND FOR THIS SUBSYSTEM.

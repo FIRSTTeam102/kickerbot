@@ -5,6 +5,7 @@
 package edu.wpi.first.wpilibj.templates.subsystems;
 
 import Team102Lib.MaxbotixSonar;
+import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.templates.commands.DriveWithJoysticks;
 import edu.wpi.first.wpilibj.templates.RobotMap;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
 
 /**
  *
@@ -38,7 +40,7 @@ public class Chassis extends Subsystem {
  */
 
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveWithJoysticks());
+        setDefaultCommand(new DriveWithXBox());
     }
 
     public Chassis() {
@@ -139,20 +141,32 @@ public class Chassis extends Subsystem {
 
      public void driveWithJoysticks(Joystick leftstick, Joystick rightstick) {
 
-        righty = rightstick.getY();
-        lefty = leftstick.getY();
+        double preRighty = rightstick.getY();
+        double preLefty = leftstick.getY();
 
-        righty = RobotMap.stickDeadBand.Deaden(righty);
-        lefty = RobotMap.stickDeadBand.Deaden(lefty);
+        righty = RobotMap.stickDeadBand.Deaden(preRighty);
+        lefty = RobotMap.stickDeadBand.Deaden(preLefty);
 
+        MessageLogger.LogMessage(preRighty + "\t" + preLefty + "\t" + righty + "\t" + lefty);
+        drive.tankDrive(lefty, righty);
+    }
+     public void driveWithXbox(Joystick xbox) {
+
+        double preRighty = xbox.getRawAxis(RobotMap.xBoxRightYAxis);
+        double preLefty = xbox.getRawAxis(RobotMap.xBoxRightYAxis);
+
+        righty = RobotMap.stickDeadBand.Deaden(preRighty);
+        lefty = RobotMap.stickDeadBand.Deaden(preLefty);
+
+        MessageLogger.LogMessage(preRighty + "\t" + preLefty + "\t" + righty + "\t" + lefty);
         drive.tankDrive(lefty, righty);
     }
      public void updateStatus()
     {
-        SmartDashboard.putDouble("X: ", x);
-        SmartDashboard.putDouble("Y: ", y);
-        SmartDashboard.putDouble("Gyro: ", gyro.getAngle());
-        SmartDashboard.putDouble("Gyro Rem: ", (gyro.getAngle() % 360));
-        SmartDashboard.putDouble("Range: ", rangeFinder.getRangeInches());
-     }
+/*        SmartDashboard.putNumber("X: ", x);
+        SmartDashboard.putNumber("Y: ", y);
+        SmartDashboard.putNumber("Gyro: ", gyro.getAngle());
+        SmartDashboard.putNumber("Gyro Rem: ", (gyro.getAngle() % 360));
+        SmartDashboard.putNumber("Range: ", rangeFinder.getRangeInches());
+*/     }
 }

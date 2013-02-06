@@ -35,12 +35,12 @@ public class RobotTemplate extends IterativeRobot {
         try
         {
             CommandBase.init(); // initialize commands and the OI (created by Netbeans)
-            SmartDashboard.putData("Scheduler", Scheduler.getInstance());
+//            SmartDashboard.putData("Scheduler", Scheduler.getInstance());
             updateStatus();
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In robotInit.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class RobotTemplate extends IterativeRobot {
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In autonomousInit.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }
@@ -87,12 +87,12 @@ public class RobotTemplate extends IterativeRobot {
             RobotMap.stickDeadBand = new Deadband(RobotMap.joystickRange, RobotMap.flatDeadband, stickDeadening, speedScale);
             RobotMap.twistDeadBand = new Deadband(RobotMap.joystickRange, RobotMap.flatDeadband, twistDeadening, speedScale);
 
-            Scheduler.getInstance().add(new EngageSprings(false));
+            Scheduler.getInstance().add(new EngageSprings(true));
             updateStatus();
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In teleopInit.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }
@@ -109,17 +109,17 @@ public class RobotTemplate extends IterativeRobot {
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In teleopPeriodic.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }
     }
     public void updateStatus()
     {
-        CommandBase.chassis.updateStatus();
+/*        CommandBase.chassis.updateStatus();
         CommandBase.kicker.updateStatus();
         CommandBase.pnuematics.updateStatus();        
-    }
+*/    }
     public void teleopDisable()
     {
         try
@@ -127,7 +127,7 @@ public class RobotTemplate extends IterativeRobot {
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In teleopDisable.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }

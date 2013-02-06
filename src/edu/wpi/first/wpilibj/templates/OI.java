@@ -77,7 +77,7 @@ public class OI
             xBoxRightBumper.whenPressed(new CompressorOn());
             xBoxRightBumper.whenReleased(new CompressorOff());
 
-            xBoxRightBumper.whenPressed(new SetFixedSetPoint());
+            xBoxLeftBumper.whenPressed(new SetFixedSetPoint());
 
             xBoxA.whenPressed(new Kick());
             xBoxB.whenPressed(new ArmKickerToSetPoint());
