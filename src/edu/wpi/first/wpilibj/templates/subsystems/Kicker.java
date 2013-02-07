@@ -4,7 +4,9 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
+import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +23,7 @@ import edu.wpi.first.wpilibj.templates.commands.SetSetPointWithTrigger;
 public class Kicker extends Subsystem
 {
     // CONSTANTS
-    final int ENCODER_MAX_VALUE = 700;
+    final int ENCODER_MAX_VALUE = 1000;
     final double MOTOR_SCALE_FACTOR = 0.7;
     final double SET_POINT_SCALE_VALUE = 20.0;
     public static final double TIME_TO_RELEASE_CLUTCH = 0.4;
@@ -115,12 +117,6 @@ public class Kicker extends Subsystem
         return encoderLimitReached(winchEncoderSetPoint);
     }
 
-    public void updateStatus()
-    {
-/*        SmartDashboard.putNumber("Winch Encoder:", encoderWinch.get());
-        SmartDashboard.putNumber("Winch Set Point:", winchEncoderSetPoint);
-*/    }
-
     // NOTE: These two functions both use the xBox Trigger.  ONLY ONE OF THEM SHOULD BE USED 
     // AND IT SHOULD BE THE DEFAULT COMMAND FOR THIS SUBSYSTEM.
     // Arm the kicker using the right trigger of the xBox controller.
@@ -150,9 +146,34 @@ public class Kicker extends Subsystem
         {
             winchEncoderSetPoint = 0;
         }
+        MessageLogger.LogMessage("setPoint\t" + winchEncoderSetPoint);
+        updateStatus();
     }
+    public void updateStatus()
+    {
+/*        SmartDashboard.putNumber("Winch Encoder:", encoderWinch.get());
+        SmartDashboard.putNumber("Winch Set Point:", winchEncoderSetPoint);
+*/
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser3,1, "                     ");
+        DriverStationLCD.getInstance().println(DriverStationLCD.Line.kUser3,1, "SetPoint: " + winchEncoderSetPoint);
+        DriverStationLCD.getInstance().updateLCD();
+    }
+
     public void setFixedSetPoint(int setPoint)
     {
         winchEncoderSetPoint = setPoint;
     }
+    public void incrementSetPoint(int increment)
+    {
+        winchEncoderSetPoint += increment;
+        if (winchEncoderSetPoint > ENCODER_MAX_VALUE)
+        {
+            winchEncoderSetPoint = ENCODER_MAX_VALUE;
+        } else if (winchEncoderSetPoint < 0)
+        {
+            winchEncoderSetPoint = 0;
+        }
+        MessageLogger.LogMessage("setPoint\t" + winchEncoderSetPoint);
+        updateStatus();
+    }            
 }
