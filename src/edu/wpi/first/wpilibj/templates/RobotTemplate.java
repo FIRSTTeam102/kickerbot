@@ -87,7 +87,7 @@ public class RobotTemplate extends IterativeRobot {
             RobotMap.stickDeadBand = new Deadband(RobotMap.joystickRange, RobotMap.flatDeadband, stickDeadening, speedScale);
             RobotMap.twistDeadBand = new Deadband(RobotMap.joystickRange, RobotMap.flatDeadband, twistDeadening, speedScale);
 
-            Scheduler.getInstance().add(new EngageSprings(false));
+            Scheduler.getInstance().add(new EngageSprings(true));
             updateStatus();
         }
         catch(Exception ex1)

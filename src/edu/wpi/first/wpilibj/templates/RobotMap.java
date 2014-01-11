@@ -27,7 +27,7 @@ public class RobotMap {
     public static final double flatDeadband = 0.02d;        // The amount of flat space in the deadband (around 0.0)
     public static Deadband stickDeadBand = null;    // Used to create a smooth deadband for the stick.
     public static Deadband twistDeadBand = null;    // Used to create a smooth deadband for the twist.
-    public static final double twistCorrection = +0.07;
+    public static final double twistCorrection = +0.0;
 
     //Digital Outputs
     public static final int compressorSwitchChannel = 1;
@@ -42,7 +42,7 @@ public class RobotMap {
     public static final int clutchSolenoidReleasePort = 3;
     public static final int clutchSolenoidHoldPort = 4;
 
-    // XBox Controller Button Indexes
+     // XBox Controller Button Indexes
     public static final int xBoxAIndex = 1;
     public static final int xBoxBIndex = 2;
     public static final int xBoxXIndex = 3;

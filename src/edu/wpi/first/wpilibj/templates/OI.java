@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.templates.commands.ArmAndKick;
 import edu.wpi.first.wpilibj.templates.commands.ArmKickerToSetPoint;
 import edu.wpi.first.wpilibj.templates.commands.CompressorOff;
 import edu.wpi.first.wpilibj.templates.commands.CompressorOn;
+import edu.wpi.first.wpilibj.templates.commands.EngageSprings;
 import edu.wpi.first.wpilibj.templates.commands.Kick;
 import edu.wpi.first.wpilibj.templates.commands.SetFixedSetPoint;
 
@@ -51,6 +52,8 @@ public class OI
     private JoystickButton leftStickButton8;
     private JoystickButton xBoxA;
     private JoystickButton xBoxB;
+    private JoystickButton xBoxY;
+    private JoystickButton xBoxX;
     private JoystickButton xBoxRightBumper;
     private JoystickButton xBoxLeftBumper;
 
@@ -59,8 +62,8 @@ public class OI
         try
         {
             xBox = new Joystick(JOYSTICK_PORT1);
-            leftstick = new Joystick(JOYSTICK_PORT2);
-            rightstick = new Joystick(JOYSTICK_PORT3);
+//            leftstick = new Joystick(JOYSTICK_PORT2);
+//            rightstick = new Joystick(JOYSTICK_PORT3);
 
             /*        trigger = new JoystickButton(leftstick, Joystick.ButtonType.kTop.value);
              trigger.whenPressed(new ArmAndKick(150));
@@ -71,16 +74,19 @@ public class OI
              */
             xBoxA = new JoystickButton(xBox, RobotMap.xBoxAIndex);
             xBoxB = new JoystickButton(xBox, RobotMap.xBoxBIndex);
+            xBoxY = new JoystickButton(xBox, RobotMap.xBoxYIndex);
+            xBoxX = new JoystickButton(xBox, RobotMap.xBoxXIndex);
             xBoxRightBumper = new JoystickButton(xBox, RobotMap.xBoxRightBumperIndex);
             xBoxLeftBumper = new JoystickButton(xBox, RobotMap.xBoxLeftBumperIndex);
 
-            xBoxRightBumper.whenPressed(new CompressorOn());
-            xBoxRightBumper.whenReleased(new CompressorOff());
+            xBoxY.whenPressed(new CompressorOn());
+            xBoxY.whenReleased(new CompressorOff());
 
             xBoxRightBumper.whenPressed(new SetFixedSetPoint());
 
             xBoxA.whenPressed(new Kick());
             xBoxB.whenPressed(new ArmKickerToSetPoint());
+            xBoxX.whenPressed(new EngageSprings(true));
         } catch (Exception ex1)
         {
             MessageLogger.LogError("Unhandled exception in OI constructor.");

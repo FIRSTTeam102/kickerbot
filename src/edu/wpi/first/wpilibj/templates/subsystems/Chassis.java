@@ -4,7 +4,9 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
+import Team102Lib.MathLib;
 import Team102Lib.MaxbotixSonar;
+import Team102Lib.MessageLogger;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.templates.commands.DriveWithJoysticks;
 import edu.wpi.first.wpilibj.templates.RobotMap;
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
 
 /**
  *
@@ -30,6 +33,10 @@ public class Chassis extends Subsystem {
     double lefty;
     double x;
     double y;
+    double leftJoyY;
+    double leftJoyX;
+    double rightJoyY;
+    double rightJoyX;
 
 /*    double change;
     double temperature;
@@ -38,7 +45,7 @@ public class Chassis extends Subsystem {
  */
 
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveWithJoysticks());
+        setDefaultCommand(new DriveWithXBox());
     }
 
     public Chassis() {
@@ -146,6 +153,27 @@ public class Chassis extends Subsystem {
         lefty = RobotMap.stickDeadBand.Deaden(lefty);
 
         drive.tankDrive(lefty, righty);
+    }
+     public void driveWithXBox(Joystick xBox) {
+
+        leftJoyX = xBox.getRawAxis(RobotMap.xBoxLeftXAxis);
+        leftJoyY = xBox.getRawAxis(RobotMap.xBoxLeftYAxis);
+        rightJoyX = xBox.getRawAxis(RobotMap.xBoxRightXAxis);
+//        rightJoyY = xBox.getRawAxis(RobotMap.xBoxRightYAxis);
+
+        leftJoyX = RobotMap.stickDeadBand.Deaden(leftJoyX);
+        leftJoyY = RobotMap.stickDeadBand.Deaden(leftJoyY);
+        rightJoyX = RobotMap.twistDeadBand.Deaden(rightJoyX + RobotMap.twistCorrection);
+
+        MessageLogger.LogMessage("Joysticks LX, LY, RX, RY: " 
+                + MathLib.round(leftJoyX, 3) 
+                + ", " + MathLib.round(leftJoyY , 3)
+                + ", " + MathLib.round(rightJoyX, 3)
+                + ", " + MathLib.round(rightJoyY, 3));
+
+        drive.mecanumDrive_Cartesian(leftJoyX, rightJoyX, leftJoyY, 0);
+//        drive.tankDrive(rightJoyY, leftJoyY);
+
     }
      public void updateStatus()
     {
