@@ -53,8 +53,8 @@ public class Chassis extends Subsystem {
         drive.setSafetyEnabled(false);
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-        drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
-        drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+//        drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+//        drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 
         // Gyro setup
         gyro = new Gyro(RobotMap.gyroPort);
@@ -171,7 +171,7 @@ public class Chassis extends Subsystem {
                 + ", " + MathLib.round(rightJoyX, 3)
                 + ", " + MathLib.round(rightJoyY, 3));
 
-        drive.mecanumDrive_Cartesian(leftJoyX, rightJoyX, leftJoyY, 0);
+        drive.mecanumDrive_Cartesian(leftJoyX, leftJoyY, rightJoyX, 0);
 //        drive.tankDrive(rightJoyY, leftJoyY);
 
     }
