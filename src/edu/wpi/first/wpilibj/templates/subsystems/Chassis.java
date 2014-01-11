@@ -146,12 +146,13 @@ public class Chassis extends Subsystem {
 
      public void driveWithJoysticks(Joystick leftstick, Joystick rightstick) {
 
-        righty = rightstick.getY();
-        lefty = leftstick.getY();
+        double preRighty = rightstick.getY();
+        double preLefty = leftstick.getY();
 
-        righty = RobotMap.stickDeadBand.Deaden(righty);
-        lefty = RobotMap.stickDeadBand.Deaden(lefty);
+        righty = RobotMap.stickDeadBand.Deaden(preRighty);
+        lefty = RobotMap.stickDeadBand.Deaden(preLefty);
 
+        MessageLogger.LogMessage("Joystick\t" + preRighty + "\t" + preLefty + "\t" + righty + "\t" + lefty);
         drive.tankDrive(lefty, righty);
     }
      public void driveWithXBox(Joystick xBox) {
@@ -177,10 +178,20 @@ public class Chassis extends Subsystem {
     }
      public void updateStatus()
     {
-        SmartDashboard.putDouble("X: ", x);
-        SmartDashboard.putDouble("Y: ", y);
-        SmartDashboard.putDouble("Gyro: ", gyro.getAngle());
-        SmartDashboard.putDouble("Gyro Rem: ", (gyro.getAngle() % 360));
-        SmartDashboard.putDouble("Range: ", rangeFinder.getRangeInches());
+/*        SmartDashboard.putNumber("X: ", x);
+        SmartDashboard.putNumber("Y: ", y);
+        SmartDashboard.putNumber("Gyro: ", gyro.getAngle());
+        SmartDashboard.putNumber("Gyro Rem: ", (gyro.getAngle() % 360));
+        SmartDashboard.putNumber("Range: ", rangeFinder.getRangeInches());
+*/     }
+     
+     // Two commands to choose which joytsticks will be used to drive.
+     public void setDriveWithXBox()
+     {
+        setDefaultCommand(new DriveWithXBox());         
+     }
+     public void setDriveWithJoysticks()
+     {
+        setDefaultCommand(new DriveWithJoysticks());         
      }
 }

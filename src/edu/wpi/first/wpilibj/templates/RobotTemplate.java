@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.DriverStation;
 import Team102Lib.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.templates.commands.DriveWithXBox;
 import edu.wpi.first.wpilibj.templates.commands.EngageSprings;
 
 /**
@@ -35,12 +36,12 @@ public class RobotTemplate extends IterativeRobot {
         try
         {
             CommandBase.init(); // initialize commands and the OI (created by Netbeans)
-            SmartDashboard.putData("Scheduler", Scheduler.getInstance());
+//            SmartDashboard.putData("Scheduler", Scheduler.getInstance());
             updateStatus();
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In robotInit.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }
@@ -54,7 +55,7 @@ public class RobotTemplate extends IterativeRobot {
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In autonomousInit.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }
@@ -88,11 +89,21 @@ public class RobotTemplate extends IterativeRobot {
             RobotMap.twistDeadBand = new Deadband(RobotMap.joystickRange, RobotMap.flatDeadband, twistDeadening, speedScale);
 
             Scheduler.getInstance().add(new EngageSprings(true));
+            
+            // Check Digital Input 1 on the driver station to see if we should be in 2 driver mode.
+            // true means two driver mode (drive with joysticks)
+            if(ds.getDigitalIn(1)) {
+                CommandBase.chassis.twoDriverMode = true;
+            }
+            else {
+                CommandBase.chassis.twoDriverMode = false;
+            }
+            
             updateStatus();
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In teleopInit.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }
@@ -109,17 +120,17 @@ public class RobotTemplate extends IterativeRobot {
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In teleopPeriodic.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }
     }
     public void updateStatus()
     {
-        CommandBase.chassis.updateStatus();
+/*        CommandBase.chassis.updateStatus();
         CommandBase.kicker.updateStatus();
         CommandBase.pnuematics.updateStatus();        
-    }
+*/    }
     public void teleopDisable()
     {
         try
@@ -127,7 +138,7 @@ public class RobotTemplate extends IterativeRobot {
         }
         catch(Exception ex1)
         {
-            MessageLogger.LogError("Exception In disabledInit.");
+            MessageLogger.LogError("Exception In teleopDisable.");
             MessageLogger.LogError(ex1.toString());
             ex1.printStackTrace();
         }

@@ -7,7 +7,8 @@ import edu.wpi.first.wpilibj.templates.commands.ArmAndKick;
 import edu.wpi.first.wpilibj.templates.commands.ArmKickerToSetPoint;
 import edu.wpi.first.wpilibj.templates.commands.CompressorOff;
 import edu.wpi.first.wpilibj.templates.commands.CompressorOn;
-import edu.wpi.first.wpilibj.templates.commands.EngageSprings;
+import edu.wpi.first.wpilibj.templates.commands.DecrementSetPoint;
+import edu.wpi.first.wpilibj.templates.commands.IncrementSetPoint;
 import edu.wpi.first.wpilibj.templates.commands.Kick;
 import edu.wpi.first.wpilibj.templates.commands.SetFixedSetPoint;
 
@@ -53,7 +54,6 @@ public class OI
     private JoystickButton xBoxA;
     private JoystickButton xBoxB;
     private JoystickButton xBoxY;
-    private JoystickButton xBoxX;
     private JoystickButton xBoxRightBumper;
     private JoystickButton xBoxLeftBumper;
 
@@ -75,14 +75,14 @@ public class OI
             xBoxA = new JoystickButton(xBox, RobotMap.xBoxAIndex);
             xBoxB = new JoystickButton(xBox, RobotMap.xBoxBIndex);
             xBoxY = new JoystickButton(xBox, RobotMap.xBoxYIndex);
-            xBoxX = new JoystickButton(xBox, RobotMap.xBoxXIndex);
             xBoxRightBumper = new JoystickButton(xBox, RobotMap.xBoxRightBumperIndex);
             xBoxLeftBumper = new JoystickButton(xBox, RobotMap.xBoxLeftBumperIndex);
 
             xBoxY.whenPressed(new CompressorOn());
             xBoxY.whenReleased(new CompressorOff());
 
-            xBoxRightBumper.whenPressed(new SetFixedSetPoint());
+            xBoxRightBumper.whenPressed(new IncrementSetPoint());
+            xBoxLeftBumper.whenPressed(new DecrementSetPoint());
 
             xBoxA.whenPressed(new Kick());
             xBoxB.whenPressed(new ArmKickerToSetPoint());

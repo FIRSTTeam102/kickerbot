@@ -8,11 +8,11 @@ package edu.wpi.first.wpilibj.templates.commands;
  *
  * @author Admin
  */
-public class SetFixedSetPoint extends CommandBase
+public class Drive extends CommandBase
 {
-    public SetFixedSetPoint()
+    public Drive()
     {
-        requires(kicker);
+        requires(chassis);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class SetFixedSetPoint extends CommandBase
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        kicker.setFixedSetPoint(300);
+        chassis.drive(oi.getXBox(), oi.getLeftJoystick(), oi.getRightJoystick());
     }
 
     // Make this return true when this Command no longer needs to run execute()

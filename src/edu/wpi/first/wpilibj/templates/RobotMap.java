@@ -38,7 +38,7 @@ public class RobotMap {
     public static final int encoderPortB = 13;
 
     // Solenoid Modules and Ports
-    public static final int solenoidModule = 2;
+    public static final int solenoidModule = 2;     // This must be in slot 7 on the 8 port CRio.
     public static final int clutchSolenoidReleasePort = 3;
     public static final int clutchSolenoidHoldPort = 4;
 

@@ -8,9 +8,9 @@ package edu.wpi.first.wpilibj.templates.commands;
  *
  * @author Admin
  */
-public class SetFixedSetPoint extends CommandBase
+public class IncrementSetPoint extends CommandBase
 {
-    public SetFixedSetPoint()
+    public IncrementSetPoint()
     {
         requires(kicker);
     }
@@ -23,13 +23,13 @@ public class SetFixedSetPoint extends CommandBase
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-        kicker.setFixedSetPoint(300);
+        kicker.incrementSetPoint(100);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
